@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace SuperGame;
 
-public class Menu
+public class Menu: IScreen
 {
     public List<MenuItem> MenuItems = new ()
         {new MenuItem("Начать играть", GameStatus.Playing), new MenuItem("Таблица Лидеров", GameStatus.LeaderBoard),new MenuItem("Выйти", GameStatus.Quit)};
@@ -46,12 +46,11 @@ public class Menu
         _isFinish = true;
     }
 
-    public void onReConfigure()
+    public void OnReConfigure()
     {
         Display();
     }
-
-    private void CheckInput()
+    public void CheckInput()
     {
         while (_gameEngine.GameStatus == GameStatus.NotStarted)
         {
@@ -96,7 +95,7 @@ public class Menu
     }
 
 
-    private void Display()
+    public void Display()
     {
         (_cWidth, _cHeight) = (Console.WindowWidth, Console.WindowHeight);
         // Отображение логотипа

@@ -20,6 +20,7 @@ public class GameEngine
             {
                 case GameStatus.Quit:
                     // Сохраняем что-то
+                    _menu.Finish();
                     break;
                 case GameStatus.Playing:
                     _menu.Finish();
@@ -71,7 +72,7 @@ public class GameEngine
                 switch (_gameStatus)
                 {
                     case GameStatus.NotStarted:
-                        _menu.onReConfigure();
+                        _menu.OnReConfigure();
                         break;
                     case GameStatus.Playing:
                         _game.Display();
