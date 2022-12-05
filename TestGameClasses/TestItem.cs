@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using SuperGame;
 
@@ -13,11 +14,10 @@ public class TestItem
     [Test]
     public void GameItemTest()
     {
-        GameItem item = new GameItem('X');
-        Assert.AreEqual(item.Display(), "X");
-        GameItem item2 = new GameItem('*');
-        Assert.AreEqual(item2.Display(), "*");
-        item.SideSize = 2;
-        Assert.AreEqual(item.Display(), "XX\nXX");
+        BasicItem item = new BasicItem('X');
+        Assert.AreEqual(item.Display(1), "X");
+        BasicItem item2 = new BasicItem('*');
+        Assert.AreEqual(item2.Display(1), "*");
+        Assert.AreEqual(item.Display(2), "XX\nXX");
     }
 }

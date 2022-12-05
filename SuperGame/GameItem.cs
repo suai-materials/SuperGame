@@ -1,26 +1,28 @@
 ﻿namespace SuperGame;
 
-public class GameItem
+public abstract class GameItem : ICloneable
 {
-    public readonly char DisplayChar;
     public (int x, int y) Position = (0, 0);
-    public int SideSize = 1;
+    public char DisplayChar;
+    public ConsoleColor Color;
+    public int[,] Board;
+    
+    public abstract string Display(int sideSize);
+    
+    public abstract void Move(int dx, int dy);
 
-    public string Display()
+    public GameItem(char displayChar, ConsoleColor color)
     {
-        string result = "";
-        for (int i = 0; i < SideSize; i++)
-        {
-            result += new string(DisplayChar, SideSize);
-            // Убираем последний перенос строки, чтобы не ломать систему, лишним переносом
-            if (i != SideSize - 1)
-                result += '\n';
-        }
-        return result;
+        (DisplayChar, Color) = (displayChar, color);
     }
 
-    public GameItem(char displayChar)
+    public void PlaceOnBoard(int x, int y, int[,] board)
     {
-        DisplayChar = displayChar;
+        // if (x > board.Length)
+    }
+
+    public object Clone()
+    {
+        return MemberwiseClone();
     }
 }

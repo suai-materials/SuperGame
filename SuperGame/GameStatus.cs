@@ -5,5 +5,6 @@ public enum GameStatus
     End,
     NotStarted,
     Playing,
-    Quit
+    Quit,
+    LeaderBoard
 }

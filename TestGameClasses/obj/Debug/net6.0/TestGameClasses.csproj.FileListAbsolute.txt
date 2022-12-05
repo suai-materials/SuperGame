@@ -103,3 +103,4 @@ C:\Users\user\Desktop\labs\01.01\SuperGame\TestGameClasses\obj\Debug\net6.0\refi
 C:\Users\user\Desktop\labs\01.01\SuperGame\TestGameClasses\obj\Debug\net6.0\TestGameClasses.pdb
 C:\Users\user\Desktop\labs\01.01\SuperGame\TestGameClasses\obj\Debug\net6.0\TestGameClasses.genruntimeconfig.cache
 C:\Users\user\Desktop\labs\01.01\SuperGame\TestGameClasses\obj\Debug\net6.0\ref\TestGameClasses.dll
+C:\Users\user\Desktop\labs\01.01\SuperGame\TestGameClasses\bin\Debug\net6.0\res\Hello.txt

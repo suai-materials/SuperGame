@@ -6,6 +6,8 @@ public class GameEngine
 {
     private GameStatus _gameStatus = GameStatus.NotStarted;
     private Menu _menu;
+    private Game _game;
+
     private Task consoleSizeTask;
 
     public GameStatus GameStatus
@@ -13,16 +15,22 @@ public class GameEngine
         get => _gameStatus;
         set
         {
+            _gameStatus = value;
             switch (value)
             {
                 case GameStatus.Quit:
                     // Сохраняем что-то
                     break;
+                case GameStatus.Playing:
+                    _menu.Finish();
+                    _game = new Game(this);
+                    break;
             }
 
-            _gameStatus = value;
+            
         }
     }
+
     private byte _moves = Constants.MAX_MOVES;
 
     public byte Moves
@@ -37,14 +45,13 @@ public class GameEngine
             }
             else if (value > Constants.MAX_MOVES)
                 _moves = Constants.MAX_MOVES;
-            
+
             _moves = value;
         }
     }
 
     public GameEngine()
     {
-        // Console.BufferHeight = Console.WindowHeight;
         consoleSizeTask = Task.Run(() => CheckConsoleSize());
         _menu = new Menu(this);
         _menu.Start();
@@ -61,18 +68,20 @@ public class GameEngine
         {
             if (cWidth != Console.WindowWidth || cHeight != Console.WindowHeight)
             {
-                
                 switch (_gameStatus)
                 {
                     case GameStatus.NotStarted:
                         _menu.onReConfigure();
                         break;
+                    case GameStatus.Playing:
+                        _game.Display();
+                        break;
                 }
+
                 (cWidth, cHeight) = (Console.WindowWidth, Console.WindowHeight);
-                
             }
+
             Thread.Sleep(50);
         }
     }
 }
-
