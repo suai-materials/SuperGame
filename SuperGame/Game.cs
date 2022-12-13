@@ -6,7 +6,7 @@ public class Game : IScreen
     public GameItem SelectedItem;
 
     public GameItem[] GameItems = new[]
-        {new BasicItem('X', ConsoleColor.Blue), new BasicItem('Y', ConsoleColor.Yellow), new BasicItem('@')};
+        {new BasicItem('X', ConsoleColor.Blue), new BasicItem('Y', ConsoleColor.Yellow), new BasicItem('@'), new BasicItem('@', ConsoleColor.Magenta)};
 
     public (int Width, int Height) size = (20, 3);
     private Random _random = new Random();
@@ -15,7 +15,8 @@ public class Game : IScreen
     private (int x, int y) choosedItemPos = (0, 0);
     private bool _isFinish;
     private bool isChoosed = false;
-    
+    private int _side;
+    private Task _choosedTask;
 
 
     public Game(GameEngine gameEngine)
@@ -29,12 +30,29 @@ public class Game : IScreen
                 Board[i].Add(GameItems[_random.Next(GameItems.Length)]);
             }
         }
-
-
         _gameEngine = gameEngine;
         Display();
-        var _inputTask = Task.Run(() => CheckInput());
-        _inputTask.Wait();
+        
+    }
+    
+
+
+    public void DrawSelecetdItem(bool isSelected = false)
+    {
+        var item = Board[choosedItemPos.x][choosedItemPos.y];
+        (int x, int y) pos = (_cWidth / 2 - _side * size.Width / 2 + _side * choosedItemPos.x, _cHeight / 2 - _side * size.Height / 2 + _side * choosedItemPos.y);
+        Utils.WriteLinesOnPos(pos.x, pos.y,
+            item.Display(_side), item.Color, isSelected ? ConsoleColor.DarkGray :Console.BackgroundColor);
+    }
+
+    public void DrawChoosedItem()
+    {
+        while (isChoosed)
+        {
+            DrawSelecetdItem();
+            
+            DrawSelecetdItem(true);
+        }
     }
 
     public void CheckInput()
@@ -47,7 +65,14 @@ public class Game : IScreen
             }
 
             if (!isChoosed)
-                switch (Console.ReadKey().Key)
+            {
+                var key = Console.ReadKey().Key;
+                if (Constants.UsedKeys.Contains(key))
+                {
+                    DrawSelecetdItem();
+                }
+
+                switch (key)
                 {
                     case ConsoleKey.S:
                     case ConsoleKey.DownArrow:
@@ -59,9 +84,12 @@ public class Game : IScreen
                         {
                             choosedItemPos.y += 1;
                         }
+                        
+
                         break;
                     case ConsoleKey.W:
                     case ConsoleKey.UpArrow:
+
                         if (choosedItemPos.y == 0)
                         {
                             choosedItemPos.y = size.Height - 1;
@@ -70,6 +98,7 @@ public class Game : IScreen
                         {
                             choosedItemPos.y -= 1;
                         }
+
                         break;
                     case ConsoleKey.D:
                     case ConsoleKey.RightArrow:
@@ -81,6 +110,7 @@ public class Game : IScreen
                         {
                             choosedItemPos.x += 1;
                         }
+
                         break;
                     case ConsoleKey.A:
                     case ConsoleKey.LeftArrow:
@@ -92,11 +122,20 @@ public class Game : IScreen
                         {
                             choosedItemPos.x -= 1;
                         }
+
+                        break;
+                    case ConsoleKey.Enter: 
+                    case ConsoleKey.Spacebar:
+                        isChoosed = true;
+                        // _choosedTask = Task.Run(() => DrawChoosedItem());
                         break;
                 }
+                DrawSelecetdItem(true);
+            }
             else
                 throw new NotImplementedException();
-            Display();
+
+            //Display();
         }
     }
 
@@ -105,34 +144,35 @@ public class Game : IScreen
     {
         Console.Clear();
         (_cWidth, _cHeight) = (Console.WindowWidth, Console.WindowHeight);
-        int side = Math.Min(_cWidth, _cHeight) / Math.Min(size.Height, size.Width);
-        while (side * size.Width > _cWidth - 1 || side * size.Height > _cHeight - 1)
+        _side = Math.Min(_cWidth, _cHeight) / Math.Min(size.Height, size.Width);
+        while (_side * size.Width > _cWidth - 1 || _side * size.Height > _cHeight - 1)
         {
-            side--;
+            _side--;
         }
 
-        (int x, int y) pos = (_cWidth / 2 - side * size.Width / 2, _cHeight / 2 - side * size.Height / 2);
-        var a = Console.CapsLock;
+        (int x, int y) pos = (_cWidth / 2 - _side * size.Width / 2, _cHeight / 2 - _side * size.Height / 2);
+
+
         for (int i = 0; i < size.Width; i++)
         {
-            pos.y = _cHeight / 2 - side * size.Height / 2;
+            pos.y = _cHeight / 2 - _side * size.Height / 2;
             for (int j = 0; j < size.Height; j++)
             {
                 if (i == choosedItemPos.x && j == choosedItemPos.y)
                 {
                     Utils.WriteLinesOnPos(pos.x, pos.y,
-                        Board[i][j].Display(side), Board[i][j].Color, ConsoleColor.White);
+                        Board[i][j].Display(_side), Board[i][j].Color, ConsoleColor.DarkGray);
                 }
                 else
                 {
                     Utils.WriteLinesOnPos(pos.x, pos.y,
-                        Board[i][j].Display(side), Board[i][j].Color);
+                        Board[i][j].Display(_side), Board[i][j].Color);
                 }
 
-                pos.y += side;
+                pos.y += _side;
             }
 
-            pos.x += side;
+            pos.x += _side;
         }
     }
 
@@ -144,5 +184,11 @@ public class Game : IScreen
     public void OnReConfigure()
     {
         throw new NotImplementedException();
+    }
+
+    public void Start()
+    {
+        var _inputTask = Task.Run(() => CheckInput());
+        _inputTask.Wait();
     }
 }

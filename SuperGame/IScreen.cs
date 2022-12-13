@@ -6,4 +6,6 @@ public interface IScreen
     void Display();
     void Finish();
     void OnReConfigure();
+
+    void Start();
 }

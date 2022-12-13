@@ -24,7 +24,9 @@ public class GameEngine
                     break;
                 case GameStatus.Playing:
                     _menu.Finish();
+                    // consoleSizeTask = Task.Run(() => CheckConsoleSize());
                     _game = new Game(this);
+                    _game.Start();
                     break;
             }
 
@@ -53,6 +55,8 @@ public class GameEngine
 
     public GameEngine()
     {
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.ForegroundColor = ConsoleColor.White;
         consoleSizeTask = Task.Run(() => CheckConsoleSize());
         _menu = new Menu(this);
         _menu.Start();
