@@ -2,9 +2,9 @@
 
 public enum GameStatus
 {
-    End,
-    NotStarted,
-    Playing,
-    Quit,
-    LeaderBoard
+    NotChoose,
+    Choosen,
+    Processing,
+    Reconfiguring,
+    WantEscape
 }

@@ -5,8 +5,9 @@ namespace SuperGame;
 
 public class Menu: IScreen
 {
+    //  new MenuItem("Таблица Лидеров", GameEngineStatus.LeaderBoard)
     public List<MenuItem> MenuItems = new ()
-        {new MenuItem("Начать играть", GameStatus.Playing), new MenuItem("Таблица Лидеров", GameStatus.LeaderBoard),new MenuItem("Выйти", GameStatus.Quit)};
+        {new MenuItem("Начать играть", GameEngineStatus.Playing), new MenuItem("Выйти", GameEngineStatus.Quit)};
 
     public string Logo = "";
     private GameEngine _gameEngine;
@@ -52,7 +53,7 @@ public class Menu: IScreen
     }
     public void CheckInput()
     {
-        while (_gameEngine.GameStatus == GameStatus.NotStarted)
+        while (_gameEngine.GameEngineStatus == GameEngineStatus.NotStarted)
         {
 
             while (!Console.KeyAvailable)
@@ -87,7 +88,7 @@ public class Menu: IScreen
                     DisplayMenu();
                     break;
                 case ConsoleKey.Enter:
-                    _gameEngine.GameStatus = _chosenItem.Action;
+                    _gameEngine.GameEngineStatus = _chosenItem.Action;
                     return;
                     break;
             }

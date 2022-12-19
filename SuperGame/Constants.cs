@@ -12,21 +12,6 @@ public static class Constants
         ConsoleKey.RightArrow, ConsoleKey.LeftArrow
     };
 
-    public static readonly Dictionary<ConsoleColor, ConsoleColor> BackGroundColors = new()
-    {
-        {ConsoleColor.White, ConsoleColor.DarkGray},
-        {ConsoleColor.DarkBlue, ConsoleColor.White},
-        {ConsoleColor.Yellow, ConsoleColor.Blue},
-        {ConsoleColor.Blue, ConsoleColor.Yellow},
-        {ConsoleColor.Magenta, ConsoleColor.Cyan},
-        {ConsoleColor.Cyan, ConsoleColor.Magenta},
-    };
-
-    public static string drawHeart()
-    {
-        string heart = String.Empty;
-        Console.WriteLine("\n ██ ██ \n███████\n███████\n █████ \n   █");
-        Console.ReadKey();
-        return heart;
-    }
+    
+    
 }

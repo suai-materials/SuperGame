@@ -4,33 +4,35 @@ namespace SuperGame;
 
 public class GameEngine
 {
-    private GameStatus _gameStatus = GameStatus.NotStarted;
+    private GameEngineStatus _gameEngineStatus = GameEngineStatus.NotStarted;
     private Menu _menu;
     private Game _game;
 
-    private Task consoleSizeTask;
+    private Task _consoleSizeTask;
 
-    public GameStatus GameStatus
+    public GameEngineStatus GameEngineStatus
     {
-        get => _gameStatus;
+        get => _gameEngineStatus;
         set
         {
-            _gameStatus = value;
+            _gameEngineStatus = value;
             switch (value)
             {
-                case GameStatus.Quit:
+                case GameEngineStatus.Quit:
                     // Сохраняем что-то
                     _menu.Finish();
                     break;
-                case GameStatus.Playing:
+                case GameEngineStatus.Playing:
                     _menu.Finish();
                     // consoleSizeTask = Task.Run(() => CheckConsoleSize());
                     _game = new Game(this);
                     _game.Start();
                     break;
+                case GameEngineStatus.NotStarted:
+                    _menu = new Menu(this);
+                    _menu.Start();
+                    break;
             }
-
-            
         }
     }
 
@@ -44,7 +46,7 @@ public class GameEngine
             if (value <= 0)
             {
                 _moves = value;
-                GameStatus = GameStatus.End;
+                GameEngineStatus = GameEngineStatus.End;
             }
             else if (value > Constants.MAX_MOVES)
                 _moves = Constants.MAX_MOVES;
@@ -57,7 +59,7 @@ public class GameEngine
     {
         Console.BackgroundColor = ConsoleColor.Black;
         Console.ForegroundColor = ConsoleColor.White;
-        consoleSizeTask = Task.Run(() => CheckConsoleSize());
+        _consoleSizeTask = Task.Run(() => CheckConsoleSize());
         _menu = new Menu(this);
         _menu.Start();
     }
@@ -73,12 +75,12 @@ public class GameEngine
         {
             if (cWidth != Console.WindowWidth || cHeight != Console.WindowHeight)
             {
-                switch (_gameStatus)
+                switch (_gameEngineStatus)
                 {
-                    case GameStatus.NotStarted:
+                    case GameEngineStatus.NotStarted:
                         _menu.OnReConfigure();
                         break;
-                    case GameStatus.Playing:
+                    case GameEngineStatus.Playing:
                         _game.Display();
                         break;
                 }

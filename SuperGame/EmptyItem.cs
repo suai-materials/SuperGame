@@ -1,6 +1,6 @@
 ﻿namespace SuperGame;
 
-public class EmptyItem: GameItem
+public class EmptyItem: BasicItem
 {
     public EmptyItem() : base(' ', ConsoleColor.Black)
     {
@@ -8,10 +8,10 @@ public class EmptyItem: GameItem
 
     public override string Display(int sideSize)
     {
-        throw new NotImplementedException();
+        return base.Display(sideSize);
     }
 
-    public override void Move(int dx, int dy)
+    public override void Move(int dx, int dy, int i, int dy1, Game game)
     {
         throw new NotImplementedException();
     }
