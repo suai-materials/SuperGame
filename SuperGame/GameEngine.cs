@@ -57,6 +57,8 @@ public class GameEngine
 
     public GameEngine()
     {
+        Utils.defaultBgColor = ConsoleColor.Black;
+        Utils.defaultFgColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.Black;
         Console.ForegroundColor = ConsoleColor.White;
         _consoleSizeTask = Task.Run(() => CheckConsoleSize());

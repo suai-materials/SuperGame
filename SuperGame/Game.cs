@@ -12,7 +12,7 @@ public class Game : IScreen
         new BasicItem('@', ConsoleColor.Magenta), new BasicItem('&', ConsoleColor.Red)
     };
 
-    private readonly (int Width, int Height) _size = (20, 20);
+    private readonly (int Width, int Height) _size = (20, 3);
     private Random _random = new Random();
     public List<List<GameItem>> Board;
     int _cWidth, _cHeight;
@@ -278,6 +278,7 @@ public class Game : IScreen
     public void Display()
     {
         Console.Clear();
+        
         (_cWidth, _cHeight) = (Console.WindowWidth, Console.WindowHeight);
         _side = Math.Min(_cWidth, _cHeight) / Math.Min(_size.Height, _size.Width);
         while (_side * _size.Width > _cWidth - 1 || _side * _size.Height > _cHeight - 1)

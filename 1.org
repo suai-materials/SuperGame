@@ -1,0 +1,88 @@
+Задание.
+
+Необходимо реализовать собственную заставку или игру, с помощью абстрактых классов и 
+возможностей работы.
+
+Я реализовал свою версии игры "Три в ряд".
+
+Реализованный функционал:
+1. Меню для игры
+2. Автоматическое масштабирование интерфейса от размера консоли
+3. Можно создавать поле любого размера и слюбым количеством игровых элементов(которые ставятся в три в ряд)
+4. Игра работает довольно быстро
+5. Игра бесконечная, так как пока нет цели и ограничений, поэтому в неё можно играть,
+   чтобы просто бороться со стрессом.
+
+Код игры:
+
+1. Utils - вспомогательный абстрактный класс, который содержит в себе утилиты
+
+   #+INCLUDE: ./SuperGame/Utils.cs src csharp
+
+2. IScreen - интерфейс, который сделан для работ экранов
+
+   #+INCLUDE: ./SuperGame/IScreen.cs src csharp
+
+3. GameEngineStatus - перчисление всех возможных вариаций состояний класса GameEngine
+
+   #+INCLUDE: ./SuperGame/GameEngineStatus.cs src csharp
+
+4. GameEngine - класс, который руководит всей игрой и перемещениями между экранами
+
+   #+INCLUDE: ./SuperGame/GameEngine.cs src csharp   
+
+5. MenuItem - record или data class, который позволяет удобно организовать Menu
+
+   #+INCLUDE: ./SuperGame/MenuItem.cs src csharp
+
+6. Menu - класс, который отвечает за работу экрана меню.
+
+   #+INCLUDE: ./SuperGame/Menu.cs src csharp
+
+7. GameItem - абстрактный класс отвечающий за работу всех элементов в игре
+
+   #+INCLUDE: ./SuperGame/GameItem.cs src csharp
+
+8. BasicItem - класс наследующмй абстрактный GameItem и реализует работу 
+   стандартного элемента в игре
+
+   #+INCLUDE: ./SuperGame/BasicItem.cs src csharp
+
+9. EmptyItem - пустой игровой элемент
+   
+   #+INCLUDE: ./SuperGame/EmptyItem.cs src csharp
+
+10. GameStatus - перечисление всех состояний игры (класса Game)
+
+    #+INCLUDE: ./SuperGame/GameStatus.cs src csharp
+
+11. Game - экран, который реализует саму игру
+
+    #+INCLUDE: ./SuperGame/Game.cs src csharp
+
+Демонстрация игры:
+
+- Меню
+   [[file:images/1.jpg]]
+
+- Демонстрация изменнения интерфейса от размера окна
+
+   [[file:images/2.jpg]]
+
+   [[file:images/3.jpg]]
+
+   [[file:images/4.jpg]]
+
+- Делаю несколько ходов:
+
+   [[file:images/5.jpg]]
+
+   [[file:images/6.jpg]]
+
+   [[file:images/7.jpg]]
+
+- Из игры можно выйти в любой момент:
+
+   [[file:images/8.png]]
+
+
